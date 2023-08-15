@@ -34,7 +34,7 @@ describe("Posts page", () => {
               title: [
                 {
                   type: "heading",
-                  text: "my new post",
+                  text: "My new post",
                 },
               ],
               content: [

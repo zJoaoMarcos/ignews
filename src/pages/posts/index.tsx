@@ -76,8 +76,6 @@ export const getStaticProps: GetStaticProps = async () => {
     };
   });
 
-  console.log(response);
-
   return {
     props: { posts },
   };

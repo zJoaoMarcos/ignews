@@ -1,10 +1,8 @@
-import { GetStaticProps } from "next";
-import { useSession } from "next-auth/react";
+import { GetServerSideProps } from "next";
+import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { RichText } from "prismic-dom";
-import { useEffect } from "react";
 import { getPrismicClient } from "../../../services/prismic";
 
 import styles from "../post.module.scss";
@@ -19,15 +17,6 @@ interface PostPreviewProps {
 }
 
 export default function PostPreview({ post }: PostPreviewProps) {
-  const { data: session } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (session?.activeSubscription) {
-      router.push(`/posts/${post.slug}`);
-    }
-  }, [session]);
-
   return (
     <>
       <Head>
@@ -62,12 +51,22 @@ export const getStaticPaths = () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { slug } = params;
+export const getServerSideProps: GetServerSideProps = async ({ req, params }) => {
+  const session: any = await getSession({ req })
+  const { slug } = params as any
+
+  if (!session?.activeSubscription) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
 
   const prismic = getPrismicClient();
 
-  const response = await prismic.getByUID("publication", String(slug), {});
+  const response: any = await prismic.getByUID("publication", slug, {});
 
   const post = {
     slug,

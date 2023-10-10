@@ -6,7 +6,7 @@ import { getStripeJs } from "../../services/stripe-js";
 import styles from "./styles.module.scss";
 
 export function SubscribeButton() {
-  const { data: session } = useSession();
+  const { data: session } = useSession() as any;
   const router = useRouter();
 
   async function handleSubscribe() {
@@ -28,8 +28,8 @@ export function SubscribeButton() {
       const stripe = await getStripeJs();
 
       await stripe?.redirectToCheckout({ sessionId });
-    } catch (error) {
-      alert(error.message);
+    } catch (error: any) {
+      alert(error?.message);
     }
   }
 

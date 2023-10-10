@@ -40,8 +40,8 @@ export const getServerSideProps: GetServerSideProps = async ({
   req,
   params,
 }) => {
-  const session = await getSession({ req });
-  const { slug } = params;
+  const session = await getSession({ req }) as any
+  const { slug } = params as any
 
   if (!session?.activeSubscription) {
     return {
@@ -54,7 +54,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const prismic = getPrismicClient(req);
 
-  const response = await prismic.getByUID("publication", String(slug), {});
+  const response: any = await prismic.getByUID("publication", String(slug), {});
 
   const post = {
     slug,

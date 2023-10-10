@@ -12,7 +12,7 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async session({ session }) {
+    async session({ session }: any) {
       try {
         const userActiveSubscription = await fauna.query(
           q.Get(
@@ -45,7 +45,7 @@ export const authOptions = {
         };
       }
     },
-    async signIn({ user }) {
+    async signIn({ user }: any) {
       const { email } = user;
 
       try {

@@ -44,12 +44,12 @@ export default function PostPreview({ post }: PostPreviewProps) {
   );
 }
 
-export const getStaticPaths = () => {
+/* export const getStaticPaths = () => {
   return {
     paths: [],
     fallback: "blocking",
   };
-};
+}; */
 
 export const getServerSideProps: GetServerSideProps = async ({ req, params }) => {
   const session: any = await getSession({ req })
